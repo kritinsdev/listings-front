@@ -68,7 +68,7 @@ class App {
     }
 
     getModel = () => {
-        console.log('red');
+        console.log('yellow');
     }
 }
 
