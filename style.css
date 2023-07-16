@@ -32,6 +32,15 @@ img, picture, video, canvas, svg {
   padding:24px 24px 0 24px; 
 }
 
+#reset {
+  font-size: 20px;
+  margin-left: 16px;
+}
+
+#reset:hover {
+  cursor: pointer;
+}
+
 .listings {
   display: grid;
   grid-template-columns: repeat(7,1fr);
@@ -80,6 +89,10 @@ img, picture, video, canvas, svg {
   border-radius: 10px;
 }
 
+.listing .price.low {
+  background-color: rgb(149, 255, 149);
+}
+
 header {
   display: flex;
   align-items: center;
@@ -105,4 +118,31 @@ header nav ul li a {
   color:#333;
   text-decoration: none;
   color:#fff;
+}
+
+.stats {
+  padding:24px 24px 0 24px;
+  text-align: center;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  gap:16px;
+}
+
+.stats span {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+#models {
+  font-size: 20px;
+  border:none;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  outline: none;
+  border-radius: 10px;
+  padding:8px;
+}
+
+#models:hover {
+  cursor: pointer;
 }

@@ -1,4 +1,4 @@
-export const relativeTime = (dateString) => {
+const relativeTime = (dateString) => {
     const givenDate = new Date(dateString);
     const currentDate = new Date();
     currentDate.setUTCHours(0, 0, 0, 0);
@@ -23,4 +23,41 @@ export const relativeTime = (dateString) => {
     } else {
         return `${differenceInDays} days ago at ${formatTime(new Date(dateString))}`;
     }
+}
+
+export const createListingItem = (item) => {
+    const itemElement = document.createElement('a');
+    itemElement.classList.add('listing');
+    itemElement.setAttribute('href', item.url);
+    itemElement.setAttribute('target', '_blank');
+
+    const itemPrice = document.createElement('div');
+    itemPrice.setAttribute('data-price', item.price);
+    itemPrice.classList.add('price');
+    itemPrice.textContent = `${item.price}€`;
+
+    const itemModel = document.createElement('div');
+    itemModel.classList.add('model');
+    itemModel.textContent = `iPhone ${item.model}`;
+
+    const itemDetails = document.createElement('div');
+    itemDetails.classList.add('details');
+
+    const itemMemory = document.createElement('span');
+    itemMemory.textContent = (item.memory) ? `Memory: ${item.memory}GB` : `Memory: N/A`;
+    const itemBatteryCapacity = document.createElement('span');
+    itemBatteryCapacity.textContent = (item.battery_capacity) ? `Battery Capacity: ${item.battery_capacity}%` : `Battery Capacity: N/A`;
+    itemDetails.appendChild(itemMemory);
+    itemDetails.appendChild(itemBatteryCapacity);
+
+    const itemAdded = document.createElement('p');
+    itemAdded.classList.add('added');
+    itemAdded.textContent = relativeTime(item.added);
+
+    itemElement.appendChild(itemModel);
+    itemElement.appendChild(itemDetails);
+    itemElement.appendChild(itemAdded);
+    itemElement.appendChild(itemPrice);
+
+    return itemElement;
 }
