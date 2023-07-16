@@ -1,0 +1,108 @@
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+/*
+  Typographic tweaks!
+  3. Add accessible line-height
+  4. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+}
+/*
+  5. Improve media defaults
+*/
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+.filters {
+  padding:24px 24px 0 24px; 
+}
+
+.listings {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  gap:8px;
+  padding:24px;
+}
+
+.listing {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  border-radius: 10px;
+  text-decoration: none;
+  color:#191919;
+  padding:8px;
+}
+
+.listing:hover {
+  cursor: pointer;
+  transform: scale(1.01);
+}
+
+.listing .model {
+  font-weight: bold;
+  text-align: center;
+  font-size: 24px;
+}
+
+.listing .details {
+  display: flex;
+  flex-direction: column;
+}
+
+.listing .added {
+  font-weight: 300;
+  font-size: 14px;
+  text-align: right;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.listing .price {
+  font-weight: bold;
+  font-size: 28px;
+  background-color: rgb(39 39 39);
+  color:#fff;
+  text-align: center;
+  border-radius: 10px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:24px;
+  background-color:rgb(39 39 39);
+}
+
+header .brand {
+  font-size: 32px;
+  font-weight: bold;
+  color:#fff;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap:16px;
+}
+
+header nav ul li a {
+  font-size: 24px;
+  color:#333;
+  text-decoration: none;
+  color:#fff;
+}
