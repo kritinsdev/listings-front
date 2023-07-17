@@ -43,9 +43,21 @@ img, picture, video, canvas, svg {
 
 .listings {
   display: grid;
-  grid-template-columns: repeat(7,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:8px;
   padding:24px;
+}
+
+@media only screen and (min-width: 640px) {
+  .listings {
+    grid-template-columns: repeat(3,1fr);
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .listings {
+    grid-template-columns: repeat(7,1fr);
+  }
 }
 
 .listing {
