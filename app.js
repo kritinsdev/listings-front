@@ -46,12 +46,16 @@ class App {
         const allListings = await getModel(modelId);
         this.listingsContainer.innerHTML = '';
 
-        for (let i = 0; i < allListings.length; i++) {
-            const itemElement = createListingItem(allListings[i]);
-            this.listingsContainer.appendChild(itemElement);
+        if(allListings.length > 0) {
+            for (let i = 0; i < allListings.length; i++) {
+                const itemElement = createListingItem(allListings[i]);
+                this.listingsContainer.appendChild(itemElement);
+            }
+    
+            this.createModelStats(allListings);
+        } else {
+            this.listingsContainer.innerHTML = '<p>No results found</p>'; 
         }
-
-        this.createModelStats(allListings);
     }
 
     createModelStats = (allListings) => {
