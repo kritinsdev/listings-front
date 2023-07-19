@@ -61,3 +61,15 @@ export const createListingItem = (item) => {
 
     return itemElement;
 }
+
+export const setItemDisabled = (items) => {
+    for(let i = 0; i < items.length; i++) {
+        items[i].classList.add('disabled');
+    }
+}
+
+export const removeItemDisabled = (items) => {
+    for(let i = 0; i < items.length; i++) {
+        items[i].classList.remove('disabled');
+    }
+}
