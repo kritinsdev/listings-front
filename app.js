@@ -6,25 +6,29 @@ class App {
         this.listingsContainer = document.querySelector('.listings');
         this.statsContainer = document.querySelector('.stats');
         this.filtersContainer = document.querySelector('.filters');
-        this.modelsSelectElemet = document.querySelector('#models');
+        this.modelsList = document.querySelector('#models');
         this.events();
     }
 
     events() {
         window.onload = this.initApp.bind(this);
         document.addEventListener('click', this.resetListings);
-        this.modelsSelectElemet.addEventListener('change', this.getModelListings);
+        this.modelsList.addEventListener('click', this.getModelListings);
     }
 
     async initApp() {
         const listings = await getAllListings();
         const models = await getAllModels();
 
-        for (let i = 0; i < models.length; i++) {
-            const modelOption = document.createElement('option');
-            modelOption.value = models[i].id;
-            modelOption.textContent = `iPhone ${models[i].model_name}`;
-            this.modelsSelectElemet.appendChild(modelOption);
+        const reversedOrderModels = [...models].reverse();
+        console.log(listings);
+
+        for (let i = 0; i < reversedOrderModels.length; i++) {
+            const modelOption = document.createElement('div');
+            modelOption.classList.add('modelId');
+            modelOption.setAttribute('data-model-id', reversedOrderModels[i].id);
+            modelOption.textContent = `iPhone ${reversedOrderModels[i].model_name}`;
+            this.modelsList.appendChild(modelOption);
         }
 
         for (let i = 0; i < listings.length; i++) {
@@ -34,28 +38,41 @@ class App {
     }
 
     getModelListings = async (e) => {
-        const modelId = e.target.value;
+        const active = document.querySelector('.modelId.active');
+        if(active) {
+            active.classList.remove('active');
+        }
+        const modelItem = e.target;
+        const modelId = modelItem.getAttribute('data-model-id');
+        modelItem.classList.add('active');
 
         if(!document.querySelector("#reset")) {
+            const resetContainer = document.createElement('div');
+            resetContainer.classList.add('reset-container');
             const resetBtn = document.createElement('span');
             resetBtn.textContent = 'Reset';
             resetBtn.setAttribute('id', 'reset');
-            this.filtersContainer.appendChild(resetBtn);
+
+            resetContainer.appendChild(resetBtn);
+            this.filtersContainer.appendChild(resetContainer);
         }
 
-        const allListings = await getModel(modelId);
-        this.listingsContainer.innerHTML = '';
-
-        if(allListings.length > 0) {
-            for (let i = 0; i < allListings.length; i++) {
-                const itemElement = createListingItem(allListings[i]);
-                this.listingsContainer.appendChild(itemElement);
-            }
+        if(modelId) {
+            const allListings = await getModel(modelId);
+            this.listingsContainer.innerHTML = '';
     
-            this.createModelStats(allListings);
-        } else {
-            this.listingsContainer.innerHTML = '<p>No results found</p>'; 
+            if(allListings.length > 0) {
+                for (let i = 0; i < allListings.length; i++) {
+                    const itemElement = createListingItem(allListings[i]);
+                    this.listingsContainer.appendChild(itemElement);
+                }
+        
+                this.createModelStats(allListings);
+            } else {
+                this.listingsContainer.innerHTML = '<p>No results found</p>'; 
+            }
         }
+
     }
 
     createModelStats = (allListings) => {
@@ -93,7 +110,10 @@ class App {
 
     resetListings = async (e) => {
         if (e.target.id === 'reset') {
-            e.target.remove();
+            console.dir(e.target);
+            const active = document.querySelector('.modelId.active');
+            active.classList.remove('active');
+            e.target.parentElement.remove();
             const listings = await getAllListings();
             this.listingsContainer.innerHTML = '';
             this.statsContainer.innerHTML = '';
