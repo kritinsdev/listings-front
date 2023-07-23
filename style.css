@@ -66,7 +66,7 @@ img, picture, video, canvas, svg {
 .listings {
   display: grid;
   grid-template-columns:repeat(2,1fr);
-  gap:16px;
+  gap:24px;
   padding:24px;
 }
 
@@ -78,7 +78,7 @@ img, picture, video, canvas, svg {
 
 @media only screen and (min-width: 1200px) {
   .listings {
-    grid-template-columns: repeat(7,1fr);
+    grid-template-columns: repeat(6,1fr);
   }
 }
 
@@ -88,6 +88,7 @@ img, picture, video, canvas, svg {
   text-decoration: none;
   color:#191919;
   padding:8px;
+  padding-top: 20px;
   box-sizing: border-box;
   position: relative;
 }
@@ -126,20 +127,37 @@ img, picture, video, canvas, svg {
   position: relative;
 }
 
-.listing .price .avg-price {
+.listing.good {
+  background-color: #e7ffe6;
+}
+
+.listing .profit {
   position: absolute;
-  top:0;
-  right:0;
+  top:-12px;
+  left:-6px;
   background-color: #26408ced;
-  border-radius: 0 10px 0 10px;
-  padding:2px 8px;
   color:#fff;
-  font-size: 14px;
+  font-size: 16px;
+  padding:2px 8px;
+  border-radius: 4px;
+  font-weight: 300;
+}
+
+.listing .profit > div {
+  display: flex;
+  gap:4px;
+  align-items: center;
+  justify-content: center;
+}
+
+.listing .profit > div span{
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .listing .difference {
   position: absolute;
-  top:-10px;
+  top:-15px;
   right: -10px;
   background-color: 	#157811;
   color:white;
