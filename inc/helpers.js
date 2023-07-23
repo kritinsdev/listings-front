@@ -34,11 +34,16 @@ export const createListingItem = (item) => {
     const itemPrice = document.createElement('div');
     itemPrice.setAttribute('data-price', item.price);
     itemPrice.classList.add('price');
-    itemPrice.textContent = `${item.price}€`;
+    itemPrice.innerHTML = `<div>${item.price}€ <span class="avg-price">${item.average_model_price}€</span></div>`;
+
+    const priceCompareElement = document.createElement('div');
+    const priceDifference = calculatePercentageChange(item.price, item.average_model_price);
+    priceCompareElement.classList.add('difference');
+    priceCompareElement.textContent = `${priceDifference} %`;
 
     const itemModel = document.createElement('div');
     itemModel.classList.add('model');
-    itemModel.textContent = `iPhone ${item.phone_model.model_name}`;
+    itemModel.textContent = `iPhone ${item.model}`;
 
     const itemDetails = document.createElement('div');
     itemDetails.classList.add('details');
@@ -59,17 +64,32 @@ export const createListingItem = (item) => {
     itemElement.appendChild(itemAdded);
     itemElement.appendChild(itemPrice);
 
+    if(item.price < item.average_model_price && priceDifference > 30) {
+        itemElement.appendChild(priceCompareElement);
+    }
+
     return itemElement;
 }
 
+const calculatePercentageChange = (oldNumber, newNumber) => {
+    if (!oldNumber || !newNumber) {
+        return false;
+    }
+
+    let difference = newNumber - oldNumber;
+    let percentageChange = (difference / oldNumber) * 100;
+
+    return Math.round(percentageChange);
+}
+
 export const setItemDisabled = (items) => {
-    for(let i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
         items[i].classList.add('disabled');
     }
 }
 
 export const removeItemDisabled = (items) => {
-    for(let i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
         items[i].classList.remove('disabled');
     }
 }

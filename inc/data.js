@@ -1,17 +1,13 @@
-export const getAllListings = async function () {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/listings`);
-    const data = await response.json();
-    return data;
+async function fetchApi(endpoint, queryParams = {}) {
+    let url = new URL(`${import.meta.env.VITE_API_URL}/${endpoint}`);
+
+    Object.keys(queryParams).forEach(key => url.searchParams.append(key, queryParams[key]))
+
+    const response = await fetch(url);
+    return await response.json();
 }
 
-export const getAllModels = async function () {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/models`);
-    const data = await response.json();
-    return data;
-}
-
-export const getModel = async function (id) {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/listings?model_id=${id}`);
-    const data = await response.json();
-    return data;
-}
+export const getAllListings = () => fetchApi('listings');
+export const getAllModels = () => fetchApi('models');
+export const getModel = (id) => fetchApi('listings', { model_id: id });
+export const getStats = () => fetchApi('stats');

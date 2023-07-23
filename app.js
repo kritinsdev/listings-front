@@ -1,5 +1,5 @@
 import { createListingItem, removeItemDisabled, setItemDisabled } from './inc/helpers.js';
-import { getAllListings, getAllModels, getModel } from './inc/data.js';
+import { getAllListings, getAllModels, getModel, getStats } from './inc/data.js';
 
 class App {
     constructor() {
@@ -25,15 +25,11 @@ class App {
         const models = await getAllModels();
 
         const reversedOrderModels = [...models].reverse();
-        const countMap = this.allListings.reduce((acc, curr) => {
-            acc[curr.model_id] = (acc[curr.model_id] || 0) + 1;
-            return acc;
-        }, {});
 
         for (let i = 0; i < reversedOrderModels.length; i++) {
             const modelCount = document.createElement('div');
             modelCount.classList.add('count');
-            const count = countMap[reversedOrderModels[i].id] || 0;
+            const count = reversedOrderModels[i].model_stats.count;
             modelCount.textContent = count;
 
             const modelOption = document.createElement('div');
@@ -48,8 +44,8 @@ class App {
             this.modelsList.appendChild(modelOption);
         }
 
-        for (let i = 0; i < this.allListings.length; i++) {
-            const itemElement = createListingItem(this.allListings[i]);
+        for (let i = 0; i < this.allListings.data.length; i++) {
+            const itemElement = createListingItem(this.allListings.data[i]);
             this.listingsContainer.appendChild(itemElement);
         }
 
@@ -83,51 +79,17 @@ class App {
                 this.listingsContainer.innerHTML = '';
                 this.statsContainer.innerHTML = '';
 
-                if (allListings.length > 0) {
-                    for (let i = 0; i < allListings.length; i++) {
-                        const itemElement = createListingItem(allListings[i]);
+                if (allListings.data.length > 0) {
+                    for (let i = 0; i < allListings.data.length; i++) {
+                        const itemElement = createListingItem(allListings.data[i]);
                         this.listingsContainer.appendChild(itemElement);
                     }
 
-                    this.createModelStats(allListings);
                 } else {
                     this.listingsContainer.innerHTML = '<p>No results found</p>';
                 }
             }
             removeItemDisabled(allModelButtons);
-        }
-    }
-
-    createModelStats = (allListings) => {
-        let sum = 0;
-        let lowest = allListings[0].price;
-        let biggest = allListings[0].price;
-
-        for (let i = 0; i < allListings.length; i++) {
-            sum += allListings[i].price;
-            if (allListings[i].price < lowest) {
-                lowest = allListings[i].price;
-            }
-            if (allListings[i].price > biggest) {
-                biggest = allListings[i].price;
-            }
-        }
-
-        const avg = sum / allListings.length;
-        this.statsContainer.innerHTML = `<div>Average price: <span>${parseInt(avg)}€</span></div>`;
-        this.statsContainer.innerHTML += `<div>Lowest price: <span>${lowest}€</span></div>`;
-        this.statsContainer.innerHTML += `<div>Highest price: <span>${biggest}€</span></div>`;
-
-        const listings = document.querySelectorAll('.listing');
-
-        for (let i = 0; i < listings.length; i++) {
-            const priceElement = listings[i].querySelector('.price');
-            let price = priceElement.getAttribute('data-price');
-            price = parseFloat(price);
-
-            if (price <= avg - 100) {
-                priceElement.classList.add('low');
-            }
         }
     }
 
@@ -141,8 +103,8 @@ class App {
             this.listingsContainer.innerHTML = '';
             this.statsContainer.innerHTML = '';
 
-            for (let i = 0; i < this.allListings.length; i++) {
-                const itemElement = createListingItem(this.allListings[i]);
+            for (let i = 0; i < this.allListings.data.length; i++) {
+                const itemElement = createListingItem(this.allListings.data[i]);
                 this.listingsContainer.appendChild(itemElement);
             }
         }

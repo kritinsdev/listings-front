@@ -66,7 +66,7 @@ img, picture, video, canvas, svg {
 .listings {
   display: grid;
   grid-template-columns:repeat(2,1fr);
-  gap:8px;
+  gap:16px;
   padding:24px;
 }
 
@@ -89,6 +89,7 @@ img, picture, video, canvas, svg {
   color:#191919;
   padding:8px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .listing:hover {
@@ -122,10 +123,32 @@ img, picture, video, canvas, svg {
   color:#fff;
   text-align: center;
   border-radius: 10px;
+  position: relative;
 }
 
-.listing .price.low {
-  background-color: #118C4F;
+.listing .price .avg-price {
+  position: absolute;
+  top:0;
+  right:0;
+  background-color: #26408ced;
+  border-radius: 0 10px 0 10px;
+  padding:2px 8px;
+  color:#fff;
+  font-size: 14px;
+}
+
+.listing .difference {
+  position: absolute;
+  top:-10px;
+  right: -10px;
+  background-color: 	#157811;
+  color:white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
 }
 
 header {
@@ -222,6 +245,11 @@ header nav ul li a {
     display: grid;
     grid-template-columns: repeat(10,1fr);
   }
+}
+
+#paginator {
+  display: flex;
+  justify-content: center;
 }
 
 .loader {
