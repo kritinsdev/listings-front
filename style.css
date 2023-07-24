@@ -73,8 +73,32 @@ section {
 
 .filters {
   display: flex;
-  align-items: stretch;
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap:16px;
+}
+
+.filters #models {
+  width: 100%;
+}
+
+.filters .filter-btn {
+  width: calc(50% - 8px);
+}
+
+@media only screen and (min-width: 640px) {
+  .filters {
+    align-items: stretch;
+    justify-content: initial;
+  }
+
+  .filters #models {
+    width: 20%;
+  }
+  
+  .filters .filter-btn {
+    width: initial;
+  }
 }
 
 #models {
@@ -91,7 +115,7 @@ section {
   cursor: pointer;
 }
 
-#best-deals {
+.filter-btn {
   background-color: #26408c;
   color:#fff;
   font-size:18px;
@@ -102,7 +126,7 @@ section {
   align-items: center;
 }
 
-#best-deals:hover {
+.filter-btn:hover {
   cursor: pointer;
 }
 

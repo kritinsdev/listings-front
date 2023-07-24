@@ -87,12 +87,26 @@ class App {
             }
         }
 
-        if (e.target.id === 'best-deals') {
+        if (e.target.id === 'best-percentage') {
             const listings = document.querySelectorAll('.listing.good');
             const listingsArray = Array.from(listings);
             listingsArray.sort((a, b) => {
                 const aDiff = parseInt(a.querySelector('.difference').getAttribute('data-price-diff'));
                 const bDiff = parseInt(b.querySelector('.difference').getAttribute('data-price-diff'));
+                return bDiff - aDiff;
+            });
+        
+            this.listingsContainer.innerHTML = '';
+            listingsArray.forEach(el => this.listingsContainer.appendChild(el));
+            this.createResetButton(this.filtersContainer);
+        }
+
+        if(e.target.id === 'best-profit') {
+            const listings = document.querySelectorAll('.listing.good');
+            const listingsArray = Array.from(listings);
+            listingsArray.sort((a, b) => {
+                const aDiff = parseInt(a.querySelector('.profit').getAttribute('data-pp'));
+                const bDiff = parseInt(b.querySelector('.profit').getAttribute('data-pp'));
                 return bDiff - aDiff;
             });
         

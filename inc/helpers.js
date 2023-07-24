@@ -43,6 +43,7 @@ export const createListingItem = (item) => {
 
 
     const profitElement = document.createElement('div');
+    profitElement.setAttribute('data-pp', item.average_model_price - item.price);
     profitElement.classList.add('profit');
     profitElement.innerHTML = `<div>Potential: <span>${item.average_model_price - item.price}€</span></div>`;
 
