@@ -28,6 +28,7 @@ const relativeTime = (dateString) => {
 export const createListingItem = (item) => {
     const itemElement = document.createElement('a');
     itemElement.classList.add('listing');
+    itemElement.setAttribute('data-listing-id', item.id);
     itemElement.setAttribute('href', item.url);
     itemElement.setAttribute('target', '_blank');
 
@@ -47,6 +48,7 @@ export const createListingItem = (item) => {
 
     const priceCompareElement = document.createElement('div');
     const priceDifference = calculatePercentageChange(item.price, item.average_model_price);
+    priceCompareElement.setAttribute('data-price-diff', priceDifference);
     priceCompareElement.classList.add('difference');
     priceCompareElement.textContent = `${priceDifference} %`;
 
@@ -91,16 +93,4 @@ const calculatePercentageChange = (oldNumber, newNumber) => {
     let percentageChange = (difference / oldNumber) * 100;
 
     return Math.round(percentageChange);
-}
-
-export const setItemDisabled = (items) => {
-    for (let i = 0; i < items.length; i++) {
-        items[i].classList.add('disabled');
-    }
-}
-
-export const removeItemDisabled = (items) => {
-    for (let i = 0; i < items.length; i++) {
-        items[i].classList.remove('disabled');
-    }
 }

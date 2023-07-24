@@ -44,6 +44,14 @@ img, picture, video, canvas, svg {
   background: rgb(193, 193, 193);
 }
 
+main {
+  padding: 0 24px;
+}
+
+section {
+  padding:16px 0;
+}
+
 .disabled {
   pointer-events: none;
   color:#a5a5a5!important;
@@ -63,11 +71,49 @@ img, picture, video, canvas, svg {
   cursor: pointer;
 }
 
+.filters {
+  display: flex;
+  align-items: stretch;
+  gap:16px;
+}
+
+#models {
+  font-size: 18px;
+  font-weight: bold;
+  border:none;
+  outline:none;
+  border:2px solid #26408ced;
+  border-radius: 10px;
+  padding:4px 8px;
+}
+
+#models:hover {
+  cursor: pointer;
+}
+
+#best-deals {
+  background-color: #26408c;
+  color:#fff;
+  font-size:18px;
+  font-weight: bold;
+  padding:0 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+#best-deals:hover {
+  cursor: pointer;
+}
+
 .listings {
   display: grid;
   grid-template-columns:repeat(2,1fr);
   gap:16px;
-  padding:24px;
+}
+
+.listings.processing {
+  filter:blur(8px);
 }
 
 @media only screen and (min-width: 640px) {
@@ -234,80 +280,7 @@ header nav ul li a {
   color:#fff;
 }
 
-.stats {
-  text-align: center;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  gap:16px;
-}
-
-.stats span {
-  font-weight: bold;
-  font-size: 24px;
-}
-
-
-#models {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap:12px;
-  padding: 24px;
-}
-
-.modelId {
-  font-size: 18px;
-  border:none;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-  outline: none;
-  border-radius: 10px;
-  padding:4px 12px;
-  color:#333;
-  min-width: fit-content;
-  position: relative;
-}
-
-.modelId .count {
-  position: absolute;
-  top:-10px;
-  right: -10px;
-  background-color: #26408ced;
-  color:#fff;
-  border-radius: 50%;
-  padding:6px;
-  width: 22px;
-  height: 22px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-}
-
-.modelId.active {
-  background-color: #26408ced;
-  color:#fff;
-}
-
-.modelId:hover {
-  cursor: pointer;
-  background-color: #26408ced;
-  color:#fff;
-}
-
-
-@media only screen and (min-width: 992px) {
-  #models {
-    display: grid;
-    grid-template-columns: repeat(10,1fr);
-  }
-}
-
-#paginator {
-  display: flex;
-  justify-content: center;
-}
-
+/* LOADER */
 .loader {
   width: 100%;
   height: 100%;

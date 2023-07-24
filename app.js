@@ -1,5 +1,5 @@
-import { createListingItem, removeItemDisabled, setItemDisabled } from './inc/helpers.js';
-import { getAllListings, getAllModels, getModel, getStats } from './inc/data.js';
+import { createListingItem } from './inc/helpers.js';
+import { getAllListings, getAllModels, getModel } from './inc/data.js';
 
 class App {
     constructor() {
@@ -10,41 +10,23 @@ class App {
         this.listingsContainer = document.querySelector('.listings');
         this.statsContainer = document.querySelector('.stats');
         this.filtersContainer = document.querySelector('.filters');
-        this.modelsList = document.querySelector('#models');
+        this.modelsOptions = document.querySelector('#models');
         this.events();
     }
 
     events() {
         window.onload = this.initApp.bind(this);
-        document.addEventListener('click', this.resetListings);
-        this.modelsList.addEventListener('click', this.getModelListings);
+        document.addEventListener('click', this.handleClick);
+        this.modelsOptions.addEventListener('change', this.getModelListings);
     }
 
     async initApp() {
         this.allListings = await getAllListings();
-        const models = await getAllModels();
 
+        const models = await getAllModels();
         const reversedOrderModels = [...models].reverse();
 
-        console.log(reversedOrderModels);
-
-        for (let i = 0; i < reversedOrderModels.length; i++) {
-            const modelCount = document.createElement('div');
-            modelCount.classList.add('count');
-            const count = reversedOrderModels[i].model_stats?.count;
-            modelCount.textContent = count;
-
-            const modelOption = document.createElement('div');
-            modelOption.classList.add('modelId');
-            modelOption.setAttribute('data-model-id', reversedOrderModels[i].id);
-            modelOption.textContent = `iPhone ${reversedOrderModels[i].model_name}`;
-            
-            if(count > 0) {
-                modelOption.appendChild(modelCount);
-            }
-
-            this.modelsList.appendChild(modelOption);
-        }
+        this.createModelOptions(reversedOrderModels);
 
         for (let i = 0; i < this.allListings.data.length; i++) {
             const itemElement = createListingItem(this.allListings.data[i]);
@@ -56,59 +38,81 @@ class App {
     }
 
     getModelListings = async (e) => {
-        if (e.target.getAttribute('data-model-id')) {
-            const allModelButtons = this.modelsList.querySelectorAll('.modelId');
-            setItemDisabled(allModelButtons);
-
-            const active = document.querySelector('.modelId.active');
-            e.target.classList.add('active');
-            if (active) {
-                active.classList.remove('active');
-            }
-
-            if (this.selectedModel === null) {
-                const resetBtn = document.createElement('span');
-                resetBtn.textContent = 'Reset';
-                resetBtn.setAttribute('id', 'reset');
-
-                this.modelsList.appendChild(resetBtn);
-            }
-
-            this.selectedModel = e.target.getAttribute('data-model-id');
-
-            if (this.selectedModel) {
-                const allListings = await getModel(this.selectedModel);
-                this.listingsContainer.innerHTML = '';
-                this.statsContainer.innerHTML = '';
-
-                if (allListings.data.length > 0) {
-                    for (let i = 0; i < allListings.data.length; i++) {
-                        const itemElement = createListingItem(allListings.data[i]);
-                        this.listingsContainer.appendChild(itemElement);
-                    }
-
-                } else {
-                    this.listingsContainer.innerHTML = '<p>No results found</p>';
+        this.selectedModel = e.target.value;
+        this.listingsContainer.classList.add('processing');
+        
+        if (this.selectedModel) {
+            const modelListings = await getModel(this.selectedModel);
+            this.listingsContainer.innerHTML = '';
+            
+            if (modelListings.data.length > 0) {
+                for (let i = 0; i < modelListings.data.length; i++) {
+                    const itemElement = createListingItem(modelListings.data[i]);
+                    this.listingsContainer.appendChild(itemElement);
                 }
+                
+                this.createResetButton(this.filtersContainer);
+            } else {
+                this.listingsContainer.innerHTML = '<p>No results found</p>';
             }
-            removeItemDisabled(allModelButtons);
+            this.listingsContainer.classList.remove('processing');
         }
     }
 
-    resetListings = async (e) => {
+    createModelOptions(models) {
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Select option';
+        this.modelsOptions.appendChild(defaultOption);
+
+        for (let i = 0; i < models.length; i++) {
+            const modelOption = document.createElement('option');
+            modelOption.value = models[i].id;
+            modelOption.textContent = `iPhone ${models[i].model_name}`;
+            this.modelsOptions.appendChild(modelOption);
+        }
+    }
+
+    handleClick = (e) => {
         if (e.target.id === 'reset') {
             this.selectedModel = null;
-            const active = document.querySelector('.modelId.active');
-            active.classList.remove('active');
             e.target.remove();
 
+            this.modelsOptions.value = '';
+            
             this.listingsContainer.innerHTML = '';
-            this.statsContainer.innerHTML = '';
-
             for (let i = 0; i < this.allListings.data.length; i++) {
                 const itemElement = createListingItem(this.allListings.data[i]);
                 this.listingsContainer.appendChild(itemElement);
             }
+        }
+
+        if (e.target.id === 'best-deals') {
+            const listings = document.querySelectorAll('.listing.good');
+            const listingsArray = Array.from(listings);
+            listingsArray.sort((a, b) => {
+                const aDiff = parseInt(a.querySelector('.difference').getAttribute('data-price-diff'));
+                const bDiff = parseInt(b.querySelector('.difference').getAttribute('data-price-diff'));
+                return bDiff - aDiff;
+            });
+        
+            this.listingsContainer.innerHTML = '';
+            listingsArray.forEach(el => this.listingsContainer.appendChild(el));
+            this.createResetButton(this.filtersContainer);
+        }
+    }
+
+    updateModelStats = (data) => {
+
+    }
+
+    createResetButton = (parent) => {
+        const resetButton = document.querySelector('#reset');
+        if(!resetButton) {
+            const resetBtn = document.createElement('span');
+            resetBtn.textContent = 'Reset';
+            resetBtn.setAttribute('id', 'reset');
+            parent.appendChild(resetBtn);
         }
     }
 }

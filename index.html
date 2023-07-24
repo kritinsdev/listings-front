@@ -27,12 +27,18 @@
         </nav>
     </header>
     <main>
-        <div class="filters">
-            <div name="models" id="models">
-            </div>
-        </div>
-        <div class="stats"></div>
-        <div class="listings"></div>
+        <section class="filters">
+                <select name="models" id="models"></select>
+                <div id="best-deals">Filter by best deals</div>
+        </section>
+
+        <!-- <section class="stats">
+            <div id="current-model">Current model: <span>Not Selected</span></div>
+            <div id="current-model-avg-price"></div>
+            <div id="current-model-lowest-price"></div>
+        </section> -->
+
+        <section class="listings"></section>
     </main>
     <script src="./app.js" type="module"></script>
 
