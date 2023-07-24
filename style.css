@@ -127,6 +127,30 @@ img, picture, video, canvas, svg {
   position: relative;
 }
 
+.listing .old-price {
+  position: absolute;
+  top: 40%;
+  right: 28%;
+  font-size: 18px;
+  transform: translate(50%, -50%);
+  text-decoration: line-through;
+}
+
+.listing .price-direction {
+  position: absolute;
+  top: -4px;
+  right: 20px;
+  font-size: 32px;
+}
+
+.listing .price-direction.up {
+  color:red;
+}
+
+.listing .price-direction.down {
+  color:#0aff00;
+}
+
 .listing.good {
   background-color: #e7ffe6;
 }

@@ -34,7 +34,12 @@ export const createListingItem = (item) => {
     const itemPrice = document.createElement('div');
     itemPrice.setAttribute('data-price', item.price);
     itemPrice.classList.add('price');
-    itemPrice.innerHTML = `<div>${item.price}€</div>`;
+    itemPrice.innerHTML = `
+    <div>
+        ${item.price}€${(item.old_price) ? `<span class="old-price">${item.old_price}€</span>` : ""}
+        ${(item.old_price) ? `${(item.old_price > item.price) ? '<span class="price-direction down">&#8595;</span>' :'<span class="price-direction up">&#8593;</span>'}` : ''}
+    </div>`;
+
 
     const profitElement = document.createElement('div');
     profitElement.classList.add('profit');

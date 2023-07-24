@@ -26,10 +26,12 @@ class App {
 
         const reversedOrderModels = [...models].reverse();
 
+        console.log(reversedOrderModels);
+
         for (let i = 0; i < reversedOrderModels.length; i++) {
             const modelCount = document.createElement('div');
             modelCount.classList.add('count');
-            const count = reversedOrderModels[i].model_stats.count;
+            const count = reversedOrderModels[i].model_stats?.count;
             modelCount.textContent = count;
 
             const modelOption = document.createElement('div');
