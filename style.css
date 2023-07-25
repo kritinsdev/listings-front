@@ -241,38 +241,15 @@ section {
 
 .listing .profit {
   position: absolute;
-  top:-12px;
-  left:-6px;
-  background-color: #26408ced;
+  top: -17px;
+  right: -6px;
+  background-color: #1b892eed;
   color:#fff;
-  font-size: 16px;
-  padding:2px 8px;
-  border-radius: 4px;
-  font-weight: 300;
-}
-
-.listing .profit > div {
-  display: flex;
-  gap:4px;
-  align-items: center;
-  justify-content: center;
-}
-
-.listing .profit > div span{
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.listing .difference {
-  position: absolute;
-  top:-15px;
-  right: -10px;
-  background-color: 	#157811;
-  color:white;
-  width: 30px;
-  height: 30px;
+  font-size: 14px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  font-size: 12px;
+  font-weight: bold;
   display: grid;
   place-items: center;
 }

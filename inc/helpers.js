@@ -41,17 +41,12 @@ export const createListingItem = (item) => {
         ${(item.old_price) ? `${(item.old_price > item.price) ? '<span class="price-direction down">&#8595;</span>' :'<span class="price-direction up">&#8593;</span>'}` : ''}
     </div>`;
 
-
     const profitElement = document.createElement('div');
     profitElement.setAttribute('data-pp', item.average_model_price - item.price);
     profitElement.classList.add('profit');
-    profitElement.innerHTML = `<div>Potential: <span>${item.average_model_price - item.price}€</span></div>`;
+    profitElement.textContent = `+${item.average_model_price - item.price}€`;
 
-    const priceCompareElement = document.createElement('div');
     const priceDifference = calculatePercentageChange(item.price, item.average_model_price);
-    priceCompareElement.setAttribute('data-price-diff', priceDifference);
-    priceCompareElement.classList.add('difference');
-    priceCompareElement.textContent = `${priceDifference} %`;
 
     const itemModel = document.createElement('div');
     itemModel.classList.add('model');
@@ -78,7 +73,6 @@ export const createListingItem = (item) => {
 
     if(item.price < item.average_model_price && priceDifference > 30) {
         itemElement.classList.add('good');
-        itemElement.appendChild(priceCompareElement);
         itemElement.appendChild(profitElement);
     }
 
