@@ -1,4 +1,4 @@
-import { createListingItem } from './inc/helpers.js';
+import { createListingItem, openModal } from './inc/helpers.js';
 import { getAllListings, getAllModels, getModel } from './inc/data.js';
 
 class App {

@@ -175,6 +175,14 @@ section {
   font-size: 24px;
 }
 
+.listing .price-histories-btn {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top:2px;
+  right: 2px;
+}
+
 .listing .details {
   display: flex;
   flex-direction: column;
@@ -183,9 +191,13 @@ section {
 .listing .added {
   font-weight: 300;
   font-size: 14px;
-  text-align: right;
+  text-align: left;
   margin-top: 8px;
   margin-bottom: 4px;
+}
+
+.listing .price-history {
+  display: flex;
 }
 
 .listing .price {
