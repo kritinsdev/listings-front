@@ -254,7 +254,7 @@ section {
 .listing .profit {
   position: absolute;
   top: -17px;
-  right: -6px;
+  left: -6px;
   background-color: #1b892eed;
   color:#fff;
   font-size: 14px;
