@@ -2,9 +2,16 @@ async function fetchApi(endpoint, queryParams = {}) {
     let url = new URL(`${import.meta.env.VITE_API_URL}/${endpoint}`);
     Object.keys(queryParams).forEach(key => url.searchParams.append(key, queryParams[key]))
 
+    let token;
+    if (import.meta.env.MODE === 'development') {
+        token = import.meta.env.VITE_BEARER_TOKEN_LOCAL;
+    } else {
+        token = import.meta.env.VITE_BEARER_TOKEN;
+    }
+
     const response = await fetch(url, {
         headers: {
-            'Authorization': `Bearer ${import.meta.env.VITE_BEARER_TOKEN}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
         }
     });

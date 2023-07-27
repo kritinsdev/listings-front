@@ -48,7 +48,7 @@ export const createListingItem = (item) => {
 
     const itemModel = document.createElement('div');
     itemModel.classList.add('model');
-    itemModel.textContent = `iPhone ${item.model}`;
+    itemModel.textContent = `${item.model}`;
 
     const itemDetails = document.createElement('div');
     itemDetails.classList.add('details');
