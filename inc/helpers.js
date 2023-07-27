@@ -53,11 +53,11 @@ export const createListingItem = (item) => {
     const itemDetails = document.createElement('div');
     itemDetails.classList.add('details');
 
-    const itemCategory = document.createElement('span');
-    itemCategory.textContent = `Category: ${item.category}`;
+    // const itemCategory = document.createElement('span');
+    // itemCategory.textContent = `Category: ${item.category}`;
 
     const modelAvgPrice = document.createElement('span');
-    modelAvgPrice.textContent = `Average price(iPhone ${item.model}): ${item.average_model_price}€`;
+    modelAvgPrice.textContent = `AVG price ${item.model}): ${item.average_model_price}€`;
 
     itemDetails.appendChild(itemCategory);
     itemDetails.appendChild(modelAvgPrice);
