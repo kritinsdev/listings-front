@@ -54,7 +54,7 @@ export const createListingItem = (item) => {
     itemDetails.classList.add('details');
 
     const modelAvgPrice = document.createElement('span');
-    modelAvgPrice.textContent = `AVG price ${item.model}): ${item.average_model_price}€`;
+    modelAvgPrice.textContent = `AVG PRICE: ${item.average_model_price}€`;
 
     itemDetails.appendChild(modelAvgPrice);
 
