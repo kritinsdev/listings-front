@@ -26,14 +26,15 @@ const relativeTime = (dateString) => {
 }
 
 export const createListingItem = (item) => {
-    const itemElement = document.createElement('a');
-    itemElement.classList.add('listing');
-    itemElement.setAttribute('data-listing-id', item.id);
-    itemElement.setAttribute('href', item.url);
-    itemElement.setAttribute('target', '_blank');
+    const listingElement = document.createElement('a');
+    listingElement.classList.add('listing');
+    listingElement.setAttribute('data-listing-id', item.id);
+    listingElement.setAttribute('data-price', item.price);
+    listingElement.setAttribute('data-pp', item.average_model_price - item.price);
+    listingElement.setAttribute('href', item.url);
+    listingElement.setAttribute('target', '_blank');
 
     const itemPrice = document.createElement('div');
-    itemPrice.setAttribute('data-price', item.price);
     itemPrice.classList.add('price');
     itemPrice.innerHTML = `
     <div>
@@ -42,7 +43,6 @@ export const createListingItem = (item) => {
     </div>`;
 
     const profitElement = document.createElement('div');
-    profitElement.setAttribute('data-pp', item.average_model_price - item.price);
     profitElement.classList.add('profit');
     profitElement.textContent = `+${item.average_model_price - item.price}€`;
 
@@ -53,10 +53,14 @@ export const createListingItem = (item) => {
     const itemDetails = document.createElement('div');
     itemDetails.classList.add('details');
 
-    const modelAvgPrice = document.createElement('span');
-    modelAvgPrice.textContent = `AVG PRICE: ${item.average_model_price}€`;
+    const optionsButtonsContainer = document.createElement('div');
+    optionsButtonsContainer.classList.add('option-buttons');
 
-    itemDetails.appendChild(modelAvgPrice);
+    const deleteListing = document.createElement('div');
+    deleteListing.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+    </svg>`;
 
     const priceHistoriesButton = document.createElement('div');
     priceHistoriesButton.innerHTML = `
@@ -76,61 +80,40 @@ export const createListingItem = (item) => {
     itemAdded.classList.add('added');
     itemAdded.textContent = `Added: ${relativeTime(item.added)}`;
 
-    itemElement.appendChild(priceHistoriesButton);
-    itemElement.appendChild(itemModel);
-    itemElement.appendChild(itemDetails);
-    itemElement.appendChild(itemAdded);
-    itemElement.appendChild(itemPrice);
+    listingElement.appendChild(priceHistoriesButton);
+    listingElement.appendChild(itemModel);
+    listingElement.appendChild(itemDetails);
+    listingElement.appendChild(itemAdded);
+    listingElement.appendChild(itemPrice);
 
-    if((item.average_model_price - item.price) >= 90) {
-        itemElement.classList.add('good');
-        itemElement.appendChild(profitElement);
+    if((item.average_model_price - item.price) >= 100) {
+        listingElement.classList.add('good');
+        listingElement.appendChild(profitElement);
     }
 
-    return itemElement;
+    return listingElement;
 }
 
-export const openModal = (data) => {
-    // Create the modal container
+export const statsModal = () => {
     const modal = document.createElement('div');
-    modal.style.display = 'block';
-    modal.style.width = '200px';
-    modal.style.height = '200px';
-    modal.style.background = '#fff';
-    modal.style.position = 'fixed';
-    modal.style.top = '50%';
-    modal.style.left = '50%';
-    modal.style.transform = 'translate(-50%, -50%)';
-    modal.style.padding = '20px';
-    modal.style.boxShadow = '0px 0px 10px rgba(0,0,0,0.2)';
-  
-    // Create the modal content
-    const title = document.createElement('h2');
-    title.textContent = data.title;
-    const content = document.createElement('p');
-    content.textContent = data.content;
-  
-    // Add the content to the modal
-    modal.appendChild(title);
-    modal.appendChild(content);
-  
-    // Add the modal to the body
+    modal.classList.add('modal');
+    modal.setAttribute('id', 'modal');
+
+    const canvas = document.createElement('canvas');
+    canvas.setAttribute('id', 'canvas');
+
+    modal.appendChild(canvas);
     document.body.appendChild(modal);
-    
-    // Create backdrop
+    return modal;
+}
+
+export const openModal = (modal) => {
     const backdrop = document.createElement('div');
-    backdrop.style.position = 'fixed';
-    backdrop.style.top = '0';
-    backdrop.style.left = '0';
-    backdrop.style.width = '100vw';
-    backdrop.style.height = '100vh';
-    backdrop.style.background = 'rgba(0,0,0,0.5)';
-    backdrop.style.zIndex = '1000';
+    backdrop.classList.add('backdrop');
     document.body.appendChild(backdrop);
-  
-    // Close modal when backdrop is clicked
-    backdrop.addEventListener('click', function() {
-      document.body.removeChild(modal);
-      document.body.removeChild(backdrop);
+
+    backdrop.addEventListener('click', function () {
+        document.body.removeChild(modal);
+        document.body.removeChild(backdrop);
     });
-  }
+} 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone listings</title>
+    <title>Listings</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@300;400;700&display=swap"
@@ -14,20 +14,25 @@
 
 <body>
     <header>
-        <div class="brand">Listings</div>
+        <a href="/" class="brand">Listings</a>
         <nav>
             <ul>
                 <li>
-                    <a href="/index.html">Home</a>
+                    <a href="/inventory.html">Inventory</a>
                 </li>
                 <li>
-                    <a href="/stats.html">Stats</a>
+                    <div id="statistics">Model Stats</div>
                 </li>
             </ul>
         </nav>
     </header>
     <main>
         <section class="filters">
+                <select name="category" id="category">
+                    <option value="1">Phones</option>
+                    <option value="2">Game Consoles</option>
+                    <option value="0">All Listings</option>
+                </select>
                 <select name="models" id="models"></select>
                 <div class="filter-btn" id="best-profit">Potential profit</div>
         </section>

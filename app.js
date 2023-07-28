@@ -1,10 +1,17 @@
-import { createListingItem, openModal } from './inc/helpers.js';
-import { getAllListings, getAllModels, getModel } from './inc/data.js';
+import { createListingItem, openModal, statsModal } from './inc/helpers.js';
+import { getListings, getModels, getModel } from './inc/data.js';
+import ModelPrices from './inc/ModelPrices.js';
 
 class App {
     constructor() {
-        this.allListings = null;
-        this.selectedModel = null;
+        this.state = {
+            category: 'phone',
+            listings: [],
+            models:[],
+            selectedModel: null,
+            listingsCategory: 1,
+        },
+
         this.pageBody = document.querySelector('body');
         this.pageLoader = document.querySelector('.loader');
         this.listingsContainer = document.querySelector('.listings');
@@ -15,21 +22,19 @@ class App {
     }
 
     events() {
-        window.onload = this.initApp.bind(this);
+        window.onload = this.initApp();
         document.addEventListener('click', this.handleClick);
         this.modelsOptions.addEventListener('change', this.getModelListings);
     }
 
-    async initApp() {
-        this.allListings = await getAllListings();
+    initApp = async () => {
+        this.state.listings = await getListings();
+        this.state.models = await getModels(this.state.listingsCategory);
 
-        const models = await getAllModels();
-        const reversedOrderModels = [...models].reverse();
+        this.createModelOptions();
 
-        this.createModelOptions(reversedOrderModels);
-
-        for (let i = 0; i < this.allListings.data.length; i++) {
-            const itemElement = createListingItem(this.allListings.data[i]);
+        for (let i = 0; i < this.state.listings.data.length; i++) {
+            const itemElement = createListingItem(this.state.listings.data[i]);
             this.listingsContainer.appendChild(itemElement);
         }
 
@@ -38,11 +43,11 @@ class App {
     }
 
     getModelListings = async (e) => {
-        this.selectedModel = e.target.value;
+        this.state.selectedModel = e.target.value;
         this.listingsContainer.classList.add('processing');
         
-        if (this.selectedModel) {
-            const modelListings = await getModel(this.selectedModel);
+        if (this.state.selectedModel) {
+            const modelListings = await getModel(this.state.selectedModel);
             this.listingsContainer.innerHTML = '';
             
             if (modelListings.data.length > 0) {
@@ -59,7 +64,8 @@ class App {
         }
     }
 
-    createModelOptions(models) {
+    createModelOptions() {
+        const models = [...this.state.models].reverse();
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
         defaultOption.textContent = 'Select option';
@@ -68,21 +74,21 @@ class App {
         for (let i = 0; i < models.length; i++) {
             const modelOption = document.createElement('option');
             modelOption.value = models[i].id;
-            modelOption.textContent = `iPhone ${models[i].model_name}`;
+            modelOption.textContent = `${models[i].model_name}`;
             this.modelsOptions.appendChild(modelOption);
         }
     }
 
     handleClick = (e) => {
         if (e.target.id === 'reset') {
-            this.selectedModel = null;
+            this.state.selectedModel = null;
             e.target.remove();
 
             this.modelsOptions.value = '';
             
             this.listingsContainer.innerHTML = '';
-            for (let i = 0; i < this.allListings.data.length; i++) {
-                const itemElement = createListingItem(this.allListings.data[i]);
+            for (let i = 0; i < this.state.listings.data.length; i++) {
+                const itemElement = createListingItem(this.state.listings.data[i]);
                 this.listingsContainer.appendChild(itemElement);
             }
         }
@@ -91,8 +97,8 @@ class App {
             const listings = document.querySelectorAll('.listing.good');
             const listingsArray = Array.from(listings);
             listingsArray.sort((a, b) => {
-                const aDiff = parseInt(a.querySelector('.profit').getAttribute('data-pp'));
-                const bDiff = parseInt(b.querySelector('.profit').getAttribute('data-pp'));
+                const aDiff = parseInt(a.getAttribute('data-pp'));
+                const bDiff = parseInt(b.getAttribute('data-pp'));
                 return bDiff - aDiff;
             });
         
@@ -100,10 +106,23 @@ class App {
             listingsArray.forEach(el => this.listingsContainer.appendChild(el));
             this.createResetButton(this.filtersContainer);
         }
-    }
 
-    updateModelStats = (data) => {
+        if(e.target.id === 'statistics') {
+            e.preventDefault();
 
+            const modelsData = this.state.models.map((item) => {
+                const obj = {
+                    model: item.model_name,
+                    avgPrice: item.model_stats.average_price
+                };
+                return obj;
+            });
+
+            const modal = statsModal();
+            openModal(modal);
+            const stats = new ModelPrices(modelsData);
+            stats.init();
+        }
     }
 
     createResetButton = (parent) => {
