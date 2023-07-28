@@ -144,11 +144,6 @@ select:hover {
   position: relative;
 }
 
-.listing:hover {
-  cursor: pointer;
-  background-color: #eee;
-}
-
 .listing .model {
   font-weight: bold;
   text-align: center;
@@ -188,6 +183,15 @@ select:hover {
   text-align: center;
   border-radius: 10px;
   position: relative;
+  display: flex;
+  width: 100%;
+  text-decoration: none;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.listing .price:hover {
+  background-color: #3254bced;
 }
 
 .listing .old-price {
@@ -267,6 +271,20 @@ header nav ul li a, header nav ul li div {
   color:#333;
   text-decoration: none;
   color:#fff;
+}
+
+.option-buttons {
+  position: absolute;
+  top:4px;
+  right: 4px;
+  background-color: #eee;
+  padding:4px;
+  border-radius: 4px;
+}
+
+.option-buttons svg {
+  width: 16px;
+  height: 16px;
 }
 
 /* ======================= LOADER ======================= */

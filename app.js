@@ -97,14 +97,18 @@ class App {
             const listings = document.querySelectorAll('.listing.good');
             const listingsArray = Array.from(listings);
             listingsArray.sort((a, b) => {
-                const aDiff = parseInt(a.getAttribute('data-pp'));
-                const bDiff = parseInt(b.getAttribute('data-pp'));
+                const aDiff = parseInt(a.getAttribute('data-potential-profit'));
+                const bDiff = parseInt(b.getAttribute('data-potential-profit'));
                 return bDiff - aDiff;
             });
         
             this.listingsContainer.innerHTML = '';
             listingsArray.forEach(el => this.listingsContainer.appendChild(el));
             this.createResetButton(this.filtersContainer);
+        }
+
+        if(e.target.id === 'delete-listing') {
+            
         }
 
         if(e.target.id === 'statistics') {
