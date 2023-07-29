@@ -116,7 +116,7 @@ select:hover {
   gap:16px;
 }
 
-.listings.processing {
+.processing {
   filter:blur(8px);
 }
 
@@ -139,7 +139,7 @@ select:hover {
   text-decoration: none;
   color:#191919;
   padding:8px;
-  padding-top: 20px;
+  padding-top: 28px;
   box-sizing: border-box;
   position: relative;
 }
@@ -148,14 +148,6 @@ select:hover {
   font-weight: bold;
   text-align: center;
   font-size: 24px;
-}
-
-.listing .price-histories-btn {
-  width: 22px;
-  height: 22px;
-  position: absolute;
-  top:2px;
-  right: 2px;
 }
 
 .listing .details {
@@ -280,11 +272,18 @@ header nav ul li a, header nav ul li div {
   background-color: #eee;
   padding:4px;
   border-radius: 4px;
+  display: flex;
+  gap:12px;
 }
 
 .option-buttons svg {
   width: 16px;
   height: 16px;
+  cursor: pointer;
+}
+
+.option-buttons #delete-listing svg {
+  color:red;
 }
 
 /* ======================= LOADER ======================= */
@@ -379,7 +378,7 @@ header nav ul li a, header nav ul li div {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80vw;
+    width: 70vw;
     height: 80vh;
     background: white;
     z-index: 1001;

@@ -17,6 +17,7 @@ class ModelPrices {
                   {
                     label: 'Average model price',
                     data: this.data.map(row => row.avgPrice)
+                    // Print value on bar also or above it. Currently it shows only on hover
                   }
                 ]
               }

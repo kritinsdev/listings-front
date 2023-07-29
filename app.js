@@ -1,5 +1,5 @@
 import { createListingItem, openModal, statsModal } from './inc/helpers.js';
-import { getListings, getModels, getModel } from './inc/data.js';
+import { getListings, getModels, getModel, deleteListing } from './inc/data.js';
 import ModelPrices from './inc/ModelPrices.js';
 
 class App {
@@ -108,7 +108,17 @@ class App {
         }
 
         if(e.target.id === 'delete-listing') {
-            
+            const listing = e.target.closest('.listing');
+            const listingId = listing.dataset.listingId;
+            const confirmation = confirm("Are you sure you want to delete this item?");
+            if(confirmation) {
+                listing.classList.add('processing');
+                deleteListing(listingId);
+
+                setTimeout(() => {
+                    listing.remove();
+                }, 1000)
+            }
         }
 
         if(e.target.id === 'statistics') {
@@ -124,8 +134,7 @@ class App {
 
             const modal = statsModal();
             openModal(modal);
-            const stats = new ModelPrices(modelsData);
-            stats.init();
+            new ModelPrices(modelsData);
         }
     }
 
